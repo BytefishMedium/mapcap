@@ -31,6 +31,8 @@ function wrapSet (target, cap) {
 function wrapGet (target) {
   shimmer(target, 'get', original => {
     return function get (key) {
+
+      // 读取属性的时候，对这个属性进行修改，从而更新这个属性的使用时间，让它优先不被删除！
       const value = original.apply(this, arguments)
       this.delete(key)
       this.set(key, value)
